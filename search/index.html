@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>search</title>
+</head>
+<body>
+    <div id="app">
+      <input type="text" v-model="search" placeholder="Search task.."/>
+      <ul>
+          <li v-for="(item) in tasks">
+              <p>id : {{item.id}}</p>
+              <p>name : {{item.name}}</p>
+              <p>username : {{item.username}}</p>
+              <p>email : {{item.email}}</p>
+          </li>
+      </ul>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</html>
+
+<script>
+let app = new Vue({
+  el: '#app',
+  data: {
+    items:[],
+    search:""
+  },
+  methods:{
+    list(){
+            fetch('https://jsonplaceholder.typicode.com/users')
+            .then(response => response.text())
+            .then(data => {
+              this.items = []
+              let parsedData = JSON.parse(data)
+              for (let i=0; i<parsedData.length; i++){
+                    this.items.push({
+                      id : parsedData[i].id,
+                      name : parsedData[i].name,
+                      username : parsedData[i].username,
+                      email : parsedData[i].email
+                    })              
+                }
+            })
+          },
+  },
+  created: function(){
+        this.list()
+        },
+        computed:{
+        tasks (){
+          return this.items.filter(item =>{
+            return item.name.toLowerCase().includes(this.search.toLowerCase())
+        })
+        },
+    },
+})
+</script>

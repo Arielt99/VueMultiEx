@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Markdow</title>
+</head>
+<body>
+    <div id="app">
+        <label>
+            <textarea v-model="toMark"></textarea>
+        </label>
+        <div v-html="marked"></div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.8.0/marked.js"></script>
+</html>
+
+<script>
+let app = new Vue({
+  el: '#app',
+  data: {
+    toMark: '',
+    marked: ''
+  },
+  watch:{
+    toMark: function () {
+             this.marked = marked(this.toMark)
+    }
+  }
+})
+</script>
+
+<style>
+body{
+    margin: 0;
+    overflow: hidden;
+}
+#app{
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+textarea{
+    width: 50vw;
+    height: 100%;
+
+    background-color: lightgray;
+}
+</style>
